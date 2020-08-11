@@ -34,23 +34,17 @@
    <button type="button" class="btn btn-primary" id="2">Fabrikalar</button>
    <button type="button" class="btn btn-primary" id="3">İmalathaneler</button>
    <button type="button" class="btn btn-primary" id="4">Ürünler</button>
-   <button type="button" class="btn btn-primary" id="5">Kategoriler</button></div>
+   <button type="button" class="btn btn-primary" id="5">Kategoriler</button>
+   <button type="button" class="btn btn-primary" id="6">Müdürler</button>
+   <button type="button" class="btn btn-primary" id="7">Sorumlular</button>
+   <button type="button" class="btn btn-primary" id="8">Personeller</button>
+   <button type="button" class="btn btn-primary" id="9">Personel Yakınları</button>
+   </div>
    </div>
    
    </div>
    
    
-   <div id="subtitle-buttons">
-   <div class="btn-group" style="margin-top:16px;">
-   <button type="button" class="btn btn-primary" id="101">Genel Müdürler</button>
-   <button type="button" class="btn btn-primary" id="102">Sorumlular</button>
-   <button type="button" class="btn btn-primary" id="103">Personeller</button>
-   <button type="button" class="btn btn-primary" id="104">Personel Yakınları</button>
-   </div>
-   
-   </div>
-
-  
 
    <div id="title_field" class="col-md-12 h2 text-center" style='margin-top:16px;' >I am Title</div>
    <button type="button" class="btn btn-primary float-right" id="Add" style='margin-top:16px;'>Ekle</button>
@@ -66,25 +60,24 @@
 
 
   <script type="text/javascript">
-        var selected_type = 1;
-        var selected_subtype = 101;
+        var selected_type = 2;
+        
 
        $('document').ready(function(){
-       
+          sendRequest(selected_type);
        });
 
        $('button').click(function(){
             
            if (this.id != "Add" && this.id < 100) { selected_type = this.id; }
-           if(this.id > 100 && this.id != "Add") { selected_subtype = this.id; }
-           //console.log("Type : "+selected_type+", subtype: "+selected_subtype);
-           var selected_id = this.id != "Add" ? selected_type : "Add";
-           if(selected_type == 1) { $('#subtitle-buttons').show(); }
-           else { $('#subtitle-buttons').hide(); }
-                
-            $.post( "Endpoint.php",{type:"type_button_select" , user_info: {"id": selected_id , "subtype": selected_subtype }}, function( data ) {
-                //alert( "Data Loaded: " + data );
-                console.log(data);
+            sendRequest(this.id);
+            
+
+
+        });
+
+        function sendRequest(id) {
+            $.post( "Endpoint.php",{type:"type_button_select" , user_info: {"id": id}}, function( data ) {
                 var jsonDecoded = jQuery.parseJSON(data);
                 var html = jsonDecoded.html;
                 $('#table_area').html(html);
@@ -95,13 +88,7 @@
                 }
                 
             });
-
-
-        });
-
-     
-        
-       
+        }
 
      </script>
 

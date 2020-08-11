@@ -14,13 +14,22 @@
    if($is_editing == true) {
       $id_selected = $_GET["id"];
       $selected_type = $_GET["type"];
-      if($selected_type == 2) {
+      if($selected_type == 1) {
+        
+      }
+      else if($selected_type == 2) {
           $current_item = $controller->get_factory($id_selected);
-          var_dump($current_item);
+          //var_dump($current_item);
       }
       else if($selected_type == 3) {
            $current_item = $controller->get_imalathane($id_selected);
-           var_dump($current_item);
+          // var_dump($current_item);
+      }
+      else if($selected_type == 4) {
+
+      }
+      else if($selected_type == 5) {
+        $current_item = $controller->get_kategori($id_selected);
       }
    }
    else {
@@ -37,6 +46,12 @@
       }
       else if($selected_type == 3) {
         return $is_editing == true ? "İmalathane Değiştirme" : "İmalathane Ekleme";
+      }
+      else if($selected_type == 4) {
+        return $is_editing == true ? "Ürün Değiştirme" : "Ürün Ekleme";
+      }
+      else if($selected_type == 5) {
+        return $is_editing == true ? "Kategori Değiştirme" : "Kategori Ekleme";
       }
       
       return "asdasd";
@@ -193,6 +208,62 @@
      }
   ?>
   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <?php 
+     if ($selected_type == 5 ) { 
+  ?>
+  <form action="editEndpoint.php" method = post>
+  <?php 
+    if($is_editing == true ) {
+      echo '<input type="hidden" id="edit_selection_id" name="edit_selection_id" value="5">';
+      echo '<input type="hidden" id="element_id" name="element_id" value="'.$current_item["id"].'">';
+    }
+    else {
+      echo '<input type="hidden" id="add_selection_id" name="add_selection_id" value="5">';
+    }
+  
+  ?>
+  
+    <div class="form-group">
+      <label>Kategori Adı:</label>
+      <?php 
+      if($is_editing == true ) {
+        
+        echo '<input type="text" class="form-control" id="kategori_adi" placeholder="Kategori Adı" name="kategori_name" value="'.$current_item["imalathane_adi"].'">';
+      }
+      else {
+        echo '<input type="text" class="form-control" id="kategori_adi" placeholder="Kategori Adı" name="kategori_name">';
+      }
+      
+      ?>
+      
+    </div>
+    
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+
+  <?php 
+     }
+  ?>
+  
+
+
+
+
+
 
 
 

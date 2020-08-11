@@ -24,6 +24,13 @@ if(isset($_POST["add_selection_id"]) || isset($_POST["edit_selection_id"]) ) {
         addImalathaneIfNotExists($_POST);
         echo "<script>window.location = 'index.php'</script>";
     }
+    else if($id == 4) {
+        
+    }
+    else if($id == 5) {
+        addKategoriIfNotExists($_POST);
+        echo "<script>window.location = 'index.php'</script>";
+    }
 }
 
 
@@ -34,14 +41,16 @@ function addFactoryIfNotExists($post) {
     // array(5) { ["add_selection_id"]=> string(1) "2" ["factory_name"]=> string(15) "kaşlsdkşalkds" ["factory_address"]=> string(33) "lkasdşaksdksşdlksşldkşalksşd" ["city"]=> string(1) "1" ["ilce"]=> string(1) "1" }
     if(!isset($post["city"]) || $post["city"] == -1) { return; }
     if(!isset($post["ilce"]) || $post["ilce"] == -1) { return; }
-    $address_text = "'".$post["factory_address"]."'";
-    $factory_name = "'".$post["factory_name"]."'";
+    $address_text = "".$post["factory_address"]."";
+    $factory_name = "".$post["factory_name"]."";
     if(isset($post["element_id"])) {
+        echo "Update";
+        var_dump($post);
        $element_id = $post["element_id"];
-       $controller->updateFactory($element_id , $post["factory_name"] , $post["factory_address"], $post["city"] , $post["ilce"]);
+       $controller->updateFactory($element_id , $factory_name , $address_text, intval($post["city"]) , intval($post["ilce"]));
     }
     else {
-       $controller->callProcedure("CALL public.add_factory(?,?,?,?)" , Array($post["factory_name"],$post["city"],$post["ilce"] , $address_text));
+       $controller->callProcedure("CALL public.add_factory(?,?,?,?)" , Array($post["factory_name"],$post["city"],$post["ilce"] , $post["factory_address"]));
     }
     
 }
@@ -59,6 +68,18 @@ function addImalathaneIfNotExists($post) {
         $controller->callProcedure("CALL public.add_imalathane(?)" , Array($imalathaneName));
     }
      
+}
+
+function addKategoriIfNotExists($post) {
+    $controller = new AppController();
+    if(validateText($_POST["kategori_name"]) == false) { return; }
+    $kategoriName = $_POST["kategori_name"];  
+    if(isset($post["element_id"])) { 
+        $controller->update_kategori($post["element_id"],$kategoriName);
+    }
+    else {
+        $controller->add_kategori(Array($kategoriName));
+    }
 }
 
 function validateText($str) {
